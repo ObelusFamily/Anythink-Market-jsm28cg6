@@ -1,9 +1,7 @@
 from typing import Optional
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Response
-from openai import Image
 from starlette import status
-
 
 from app.api.dependencies.items import (
     check_item_modification_permissions,
@@ -12,8 +10,6 @@ from app.api.dependencies.items import (
 )
 from app.api.dependencies.authentication import get_current_user_authorizer
 from app.api.dependencies.database import get_repository
-from app.core.config import get_app_settings
-from app.core.settings.app import AppSettings
 from app.db.repositories.items import ItemsRepository
 from app.models.domain.items import Item
 from app.models.domain.users import User
@@ -72,13 +68,6 @@ async def create_new_item(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=strings.ITEM_ALREADY_EXISTS,
         )
-    if not item_create.image:
-        resource = Image.create(
-            prompt=item_create.title,
-            n=1,
-            size="256x256"
-        )
-        item_create.image = resource["data"][0]["url"]
     item = await items_repo.create_item(
         slug=slug,
         title=item_create.title,

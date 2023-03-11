@@ -1,6 +1,5 @@
 from typing import Callable
 
-import openai
 from fastapi import FastAPI
 from loguru import logger
 
@@ -14,7 +13,6 @@ def create_start_app_handler(
 ) -> Callable:  # type: ignore
     async def start_app() -> None:
         await connect_to_db(app, settings)
-        openai.openai_api_key = settings.openai_api_key
 
     return start_app
 

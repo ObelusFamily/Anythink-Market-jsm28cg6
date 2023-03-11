@@ -24,8 +24,6 @@ class AppSettings(BaseAppSettings):
 
     secret_key: SecretStr = SecretStr("secret")
 
-    openai_api_key: SecretStr = SecretStr("openai_api_key")
-
     api_prefix: str = "/api"
 
     jwt_token_prefix: str = "Token"
